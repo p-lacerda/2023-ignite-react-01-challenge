@@ -1,5 +1,6 @@
 import { useState } from "react";
 import * as S from './styles';
+import { PlusCircle } from "phosphor-react";
 
 type AddTaskProps = {
   setNewTask: any,
@@ -24,10 +25,13 @@ const AddTask = ({ setNewTask, onSubmit }: AddTaskProps) => {
   };
 
   return (
-    <div>
-      <S.AddTaskInput type="text"  value={inputValue} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)} />
-      <button onClick={handleSubmit}>Criar</button>
-    </div>
+    <S.AddTaskWrapper>
+      <S.AddTaskInput type="text" placeholder="Adicione uma nova tarefa"  value={inputValue} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)} />
+      <S.AddTaskButton onClick={handleSubmit}>
+        Criar
+        <PlusCircle size={16} />  
+      </S.AddTaskButton>
+    </S.AddTaskWrapper>
   )
 }
 

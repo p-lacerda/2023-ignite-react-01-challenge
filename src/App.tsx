@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react"
 import { AddTask } from "./components/AddTask"
-import { InfoBar } from "./components/InfoBar"
+import { Info } from "./components/Info"
 import { Task } from "./components/Task"
+import { Empty } from "./components/Empty"
+import { Header } from "./components/Header"
 
-type Task = {
+export type ITask = {
   uuid: string
   content: string
   completed: boolean
 }
 
 function App() {
-  const [newTask, setNewTask] = useState<Task>() 
-  const [tasks, setTasks] = useState<Task[]>([])
+  const [newTask, setNewTask] = useState<ITask>() 
+  const [tasks, setTasks] = useState<ITask[]>([])
   const [completedTasks, setCompletedTasks] = useState(0)
 
   const onSubmit = () => {
@@ -52,19 +54,24 @@ function App() {
   }, [tasks])
 
   return (
-    <>
-      <AddTask setNewTask={setNewTask} onSubmit={onSubmit} />
-      <InfoBar createdTasks={tasks.length} completedTasks={completedTasks} />
-      <div>
+    <div style={{ display: "flex", height: "100vh", flexDirection: "column", justifyItems: "center", alignItems: "center", marginLeft: "auto", marginRight: "auto" }}>
+      <Header />
+      <div style={{ marginTop: "173px", width: "736px" }}>
+        <AddTask setNewTask={setNewTask} onSubmit={onSubmit} />
+        <Info createdTasks={tasks.length} completedTasks={completedTasks} />
+      <div style={{ marginTop: "24px", width: "100%" }}>
         {
-          tasks && tasks.map((task) => {
+          tasks.length !== 0 ? tasks.map((task) => {
             return (
               <Task key={task.uuid} info={task} onCheck={onCheck} onRemove={onRemove} />
             )
-          })
+          }) : (
+            <Empty />
+          )
         }
       </div>
-    </>
+      </div>
+    </div>
   )
 }
 
